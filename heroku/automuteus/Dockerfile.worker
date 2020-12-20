@@ -1,0 +1,2 @@
+ARG AUTOMUTEUS_TAG=latest
+FROM denverquane/amongusdiscord:${AUTOMUTEUS_TAG}

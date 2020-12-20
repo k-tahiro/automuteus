@@ -1,0 +1,16 @@
+ARG GALACTUS_TAG=latest
+
+FROM automuteus/galactus:${GALACTUS_TAG} AS galactus
+
+FROM openresty/openresty:alpine
+
+COPY --from=galactus /app /galactus
+
+RUN apk update \
+  && apk --no-cache add ruby supervisor
+
+COPY nginx.conf.erb /usr/local/openresty/nginx/conf/
+COPY supervisord.conf /etc/supervisord.conf
+
+EXPOSE 80
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

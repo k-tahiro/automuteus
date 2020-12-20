@@ -44,10 +44,7 @@ function update_app() {
   fi
   heroku config:push -a "${app_name}"
 
-  export APP_NAME="${app_name}"
-  docker-compose build
-  docker-compose push
-
+  heroku container:push --recursive -a "${app_name}"
   heroku container:release web worker -a "${app_name}"
 }
 
