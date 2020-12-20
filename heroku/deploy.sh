@@ -11,8 +11,12 @@ function create_app() {
   heroku plugins:install heroku-config
 
   heroku create "${app_name}"
-  heroku addons:create heroku-postgres:hobby-dev -a "${app_name}"
-  heroku addons:create heroku-redis:hobby-dev -a "${app_name}"
+  heroku addons:create heroku-postgresql:hobby-dev -a "${app_name}" --wait
+  heroku addons:create heroku-redis:hobby-dev -a "${app_name}" --wait
+
+  if [[ ! -e "${ENV_FILE}" ]]; then
+    cp sample.env "${ENV_FILE}"
+  fi
 
   echo "HOST=\"https://${app_name}.herokuapp.com\"" >>"${ENV_FILE}"
   echo "GALACTUS_ADDR=\"https://${app_name}.herokuapp.com/galactus\"" >>"${ENV_FILE}"
