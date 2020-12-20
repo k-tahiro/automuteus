@@ -1,9 +1,10 @@
 ARG GALACTUS_TAG=latest
-
+ARG AUTOMUTEUS_TAG=latest
+FROM denverquane/amongusdiscord:${AUTOMUTEUS_TAG} AS automuteus
 FROM automuteus/galactus:${GALACTUS_TAG} AS galactus
 
 FROM openresty/openresty:alpine
-
+COPY --from=automuteus /app /automuteus
 COPY --from=galactus /app /galactus
 
 RUN apk update \

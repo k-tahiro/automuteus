@@ -19,7 +19,6 @@ function create_app() {
   fi
 
   echo "HOST=\"https://${app_name}.herokuapp.com\"" >>"${ENV_FILE}"
-  echo "GALACTUS_ADDR=\"https://${app_name}.herokuapp.com/galactus\"" >>"${ENV_FILE}"
 }
 
 function update_app() {
@@ -45,7 +44,7 @@ function update_app() {
   heroku config:push -a "${app_name}"
 
   heroku container:push --recursive -a "${app_name}"
-  heroku container:release web worker -a "${app_name}"
+  heroku container:release web -a "${app_name}"
 }
 
 
